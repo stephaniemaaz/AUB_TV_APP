@@ -9,6 +9,9 @@
         android:name="android.software.leanback"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
