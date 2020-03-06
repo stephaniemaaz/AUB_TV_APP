@@ -7,4 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     tools:deviceIds="tv"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame">
+    <com.example.sliderviewlibrary.SliderView
+    android:id="@+id/sliderView"
+    android:layout_centerHorizontal="true"
+    android:layout_width="300dp"
+    android:layout_height="200dp"/>
+
+</fragment>
+
