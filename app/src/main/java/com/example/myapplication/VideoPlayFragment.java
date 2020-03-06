@@ -34,7 +34,8 @@ public class VideoPlayFragment extends VideoSupportFragment {
 
     public static final String STAFF_PICKS_VIDEO_URI = "/channels/927/videos"; // 927 == staffpicks
 
-    private final VimeoClient mApiClient = VimeoClient.getInstance();
+    // todo: last thing done: commented the following line
+//    private final VimeoClient mApiClient = VimeoClient.getInstance();
     private ProgressDialog mProgressDialog;
 
     private TextView mRequestOutputTv;
@@ -46,6 +47,9 @@ public class VideoPlayFragment extends VideoSupportFragment {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         final Video video = VideoPlayActivity.video;
+
+//        TestApp d = new TestApp();
+//        d.onCreate();
 
         mProgressDialog = ProgressDialog.show(getActivity(), "", "Loading...", true);
         mProgressDialog.setCancelable(true);
@@ -70,19 +74,10 @@ public class VideoPlayFragment extends VideoSupportFragment {
 //        } catch (Exception e) {
 //            Log.i("````error````: ", e.getMessage());
 //        }
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-        mProgressDialog = new ProgressDialog(getContext());
-        mProgressDialog.setMessage("All of your API are belong to us...");
 
-        // ---- Code Grant Check ----
-        handleCodeGrantIfNecessary();
+//        mProgressDialog = new ProgressDialog(getContext());
+//        mProgressDialog.setMessage("All of your API are belong to us...");
 
-        // ---- Client Credentials Auth ----
-        if (mApiClient.getVimeoAccount().getAccessToken() == null) {
-            // If there is no access token, fetch one on first app open
-            authenticateWithClientCredentials();
-        }
 
     }
 
@@ -225,86 +220,32 @@ public class VideoPlayFragment extends VideoSupportFragment {
 
     private void logout() {
         mProgressDialog.show();
-        mApiClient.logOut(new VimeoCallback<Object>() {
-            @Override
-            public void success(Object o) {
-                AccountPreferenceManager.removeClientAccount();
-                toast("Logout Success");
-                mProgressDialog.hide();
-            }
-
-            @Override
-            public void failure(VimeoError error) {
-                AccountPreferenceManager.removeClientAccount();
-                toast("Logout Failure");
-                mRequestOutputTv.setText(error.getDeveloperMessage());
-                mProgressDialog.hide();
-            }
-        });
+//        mApiClient.logOut(new VimeoCallback<Object>() {
+//            @Override
+//            public void success(Object o) {
+//                AccountPreferenceManager.removeClientAccount();
+//                toast("Logout Success");
+//                mProgressDialog.hide();
+//            }
+//
+//            @Override
+//            public void failure(VimeoError error) {
+//                AccountPreferenceManager.removeClientAccount();
+//                toast("Logout Failure");
+//                mRequestOutputTv.setText(error.getDeveloperMessage());
+//                mProgressDialog.hide();
+//            }
+//        });
     }
-
-    // You can't make any requests to the api without an access token. This will get you a basic
-    // "Client Credentials" gran which will allow you to make requests
-    private void authenticateWithClientCredentials() {
-        mProgressDialog.show();
-        mApiClient.authorizeWithClientCredentialsGrant(new AuthCallback() {
-            @Override
-            public void success() {
-                toast("Client Credentials Authorization Success");
-                mProgressDialog.hide();
-            }
-
-            @Override
-            public void failure(VimeoError error) {
-                toast("Client Credentials Authorization Failure");
-                mRequestOutputTv.setText(error.getDeveloperMessage());
-                mProgressDialog.hide();
-            }
-        });
-    }
-
-    private void authenticateWithCodeGrant(Uri uri) {
-        mProgressDialog.show();
-        if (uri.getQuery() == null || uri.getQuery().isEmpty()) {
-            toast("Bad deep link - no query parameters");
-            return;
-        }
-        mApiClient.authenticateWithCodeGrant(uri.toString(), new AuthCallback() {
-            @Override
-            public void success() {
-                toast("Code Grant Success");
-                mProgressDialog.hide();
-            }
-
-            @Override
-            public void failure(VimeoError error) {
-                toast("Code Grant Failure");
-                mRequestOutputTv.setText(error.getDeveloperMessage());
-                mProgressDialog.hide();
-            }
-        });
-    }
-
     // </editor-fold>
 
     // <editor-fold desc="Code Grant">
 
-    // We deep link to this activity as specified in the AndroidManifest.
-    private void handleCodeGrantIfNecessary() {
-//        if (getIntent() != null) {
-//            String action = getIntent().getAction();
-//            Uri uri = getIntent().getData();
-//            if (Intent.ACTION_VIEW.equals(action) && uri != null) {
-//                // This is coming from a deep link
-//                authenticateWithCodeGrant(uri);
-//            }
-//        }
-    }
 
     private void goToWebForCodeGrantAuth() {
-        String uri = mApiClient.getCodeGrantAuthorizationURI();
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        startActivity(browserIntent);
+//        String uri = mApiClient.getCodeGrantAuthorizationURI();
+//        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//        startActivity(browserIntent);
     }
 
     // </editor-fold>
