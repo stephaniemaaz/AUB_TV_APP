@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/default_background">
+
+    <!-- TextView to display the date -->
+    <TextView
+        android:id="@+id/calender_main_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/filler_title"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:textAlignment="center"/>
+
+    <!-- CalenderView to display the Calender -->
+    <CalendarView
+        android:id="@+id/calender_main_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="80dp"
+        android:selectedWeekBackgroundColor="@color/Transparent_red"/>
+
+    <!-- TextView to display the Notes -->
+    <TextView
+        android:id="@+id/calender_main_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="400dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/filler_text_short"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+</RelativeLayout>

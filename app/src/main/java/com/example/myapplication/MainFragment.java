@@ -14,21 +14,16 @@
 
 package com.example.myapplication;
 
-import android.app.Activity;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.leanback.app.BrowseFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
@@ -38,9 +33,8 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
-import com.squareup.picasso.Picasso;
+import timber.log.Timber;
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
@@ -51,13 +45,10 @@ public class MainFragment extends BrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
+        Timber.i("onCreate Called");
         super.onActivityCreated(savedInstanceState);
-
         setupUIElements();
-
         setupEvenListeners();
-
         loadRows();
     }
 
@@ -84,8 +75,27 @@ public class MainFragment extends BrowseFragment {
                 Toast.makeText(getActivity(), video.getTitle() + " clicked", Toast.LENGTH_LONG)
                         .show();
                 Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
-                intent.putExtra("video", video);
+//                intent.putExtra(DetailsActivity.MOVIE, movie);
+//                intent.putExtra(PlaybackOverlayActivity.VIDEO, video.toString());
                 getActivity().startActivity(intent);
+            }
+            if (item instanceof Powerpoint) {
+                Powerpoint powerpoint = (Powerpoint) item;
+                Log.d(TAG, "Item: " + item.toString());
+                Toast.makeText(getActivity(), powerpoint.getTitle() + " clicked", Toast.LENGTH_LONG)
+                        .show();
+                Intent intent = new Intent(getActivity(), PowerPointActivity.class);
+//                intent.putExtra(DetailsActivity.MOVIE, movie);
+//                intent.putExtra(PlaybackOverlayActivity.VIDEO, video.toString());
+            else if (item instanceof Video) {
+              intent.putExtra("video", video);
+            }
+                getActivity().startActivity(intent);
+            } else if (item instanceof String) {
+                if (((String) item).contains(getString(R.string.calendar))) {
+                    Intent intent = new Intent(getActivity(), CalendarActivity.class);
+                    startActivity(intent);
+                }
             }
         }
     }
@@ -106,13 +116,13 @@ public class MainFragment extends BrowseFragment {
         mRowsAdapter.add(new ListRow(cardPresenterHeader_1, cardRowAdapter_1));
         // endregion
         // region second row
-        HeaderItem cardPresenterHeader_2 = new HeaderItem(1, "LIBRARIES");
+        HeaderItem cardPresenterHeader_2 = new HeaderItem(1, "POWER POINTS TRY HERE");
         CardPresenter cardPresenter_2 = new CardPresenter();
         ArrayObjectAdapter cardRowAdapter_2 = new ArrayObjectAdapter(cardPresenter_2);
 
         for (int i = 0; i < 7; i++) {
-            Video video = new Video("Video " + (i + 10), "Description " + (i + 10), "https://vimeo.com/395191930");
-            cardRowAdapter_2.add(video);
+            Powerpoint powerpoint = new Powerpoint("Powerpoint " + i, "Description" + i, "");
+            cardRowAdapter_2.add(powerpoint);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_2, cardRowAdapter_2));
         // endregion
@@ -183,10 +193,14 @@ public class MainFragment extends BrowseFragment {
         mRowsAdapter.add(new ListRow(cardPresenterHeader_8, cardRowAdapter_8));
         // endregion
 
-
-
         /* set */
         setAdapter(mRowsAdapter);
+
+        HeaderItem gridHeader = new HeaderItem(1, "CALENDAR");
+        GridItemPresenter mGridPresenter = new GridItemPresenter();
+        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
+        gridRowAdapter.add(getResources().getString(R.string.calendar));
+        mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
     private class GridItemPresenter extends Presenter {
