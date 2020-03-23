@@ -194,7 +194,6 @@ public class MainFragment extends BrowseFragment {
         setAdapter(mRowsAdapter);
 
         HeaderItem gridHeader = new HeaderItem(1, "CALENDAR");
-
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(getResources().getString(R.string.calendar));
