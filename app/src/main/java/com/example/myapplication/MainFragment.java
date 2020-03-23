@@ -84,9 +84,7 @@ public class MainFragment extends BrowseFragment {
                 Toast.makeText(getActivity(), video.getTitle() + " clicked", Toast.LENGTH_LONG)
                         .show();
                 Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
-
-////                intent.putExtra(DetailsActivity.MOVIE, movie);
-//                intent.putExtra(PlaybackOverlayActivity.VIDEO, video.toString());
+                intent.putExtra("video", video);
                 getActivity().startActivity(intent);
             }
         }
@@ -102,7 +100,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_1 = new ArrayObjectAdapter(cardPresenter_1);
 
         for (int i = 0; i < 10; i++) {
-            Video video = new Video("Video " + i, "Description " + i, "");
+            Video video = new Video("Video " + i, "Description " + i, "https://archive.org/download/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4");
             cardRowAdapter_1.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_1, cardRowAdapter_1));
@@ -113,7 +111,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_2 = new ArrayObjectAdapter(cardPresenter_2);
 
         for (int i = 0; i < 7; i++) {
-            Video video = new Video("Video " + (i + 10), "Description " + (i + 10), "");
+            Video video = new Video("Video " + (i + 10), "Description " + (i + 10), "https://vimeo.com/395191930");
             cardRowAdapter_2.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_2, cardRowAdapter_2));
@@ -124,7 +122,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_3 = new ArrayObjectAdapter(cardPresenter_3);
 
         for (int i = 0; i < 15; i++) {
-            Video video = new Video("Video " + (i + 17), "Description " + (i + 17), "");
+            Video video = new Video("Video " + (i + 17), "Description " + (i + 17), "https://player.vimeo.com/video/395191930");
             cardRowAdapter_3.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_3, cardRowAdapter_3));
