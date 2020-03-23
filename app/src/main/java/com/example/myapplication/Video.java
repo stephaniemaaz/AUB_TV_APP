@@ -14,15 +14,15 @@ public class Video implements Serializable {
     private long id;
     private String title;
     private String description;
-    private String videoUrl;
+    private String YouTubeID;
     private String cardImageUrl;
 
     public Video(){}
 
-    public Video(String title, String description, String videoUrl) {
+    public Video(String title, String description, String youTubeID) {
         this.title = title;
         this.description = description;
-        this.videoUrl = videoUrl;
+        this.YouTubeID = youTubeID;
     }
 
     public long getId() {
@@ -37,24 +37,12 @@ public class Video implements Serializable {
         return this.description;
     }
 
-    public String getVideoUrl() {
-        return this.videoUrl;
+    public String getYouTubeID() {
+        return YouTubeID;
     }
 
-    public URI getVideoURI() {
-        try {
-            return new URI(getVideoUrl());
-        } catch (URISyntaxException e) {
-            return null;
-        }
-    }
-
-    public Uri getVideoUri() {
-        try {
-            return Uri.parse(getVideoUrl());
-        } catch (Exception e) {
-            return null;
-        }
+    public void setYouTubeID(String youTubeID) {
+        YouTubeID = youTubeID;
     }
 
     public String getCardImageUrl() {
@@ -81,10 +69,6 @@ public class Video implements Serializable {
         this.description = description;
     }
 
-    public void setVideoUrl(String url) {
-        this.videoUrl = url;
-    }
-
     public void setCardImageUrl(String cardImageUrl) {
         this.cardImageUrl = cardImageUrl;
     }
@@ -95,7 +79,7 @@ public class Video implements Serializable {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", videoUrl='" + videoUrl + '\'' +
+                ", YouTubeID='" + YouTubeID + '\'' +
                 ", cardImageUrl='" + cardImageUrl + '\'' +
                 '}';
     }

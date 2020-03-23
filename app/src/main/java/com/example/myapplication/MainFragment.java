@@ -100,7 +100,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_1 = new ArrayObjectAdapter(cardPresenter_1);
 
         for (int i = 0; i < 10; i++) {
-            Video video = new Video("Video " + i, "Description " + i, "https://archive.org/download/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4");
+            Video video = new Video("Video " + i, "Description " + i, "UGzVDS-se7Q");
             cardRowAdapter_1.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_1, cardRowAdapter_1));
@@ -111,7 +111,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_2 = new ArrayObjectAdapter(cardPresenter_2);
 
         for (int i = 0; i < 7; i++) {
-            Video video = new Video("Video " + (i + 10), "Description " + (i + 10), "https://vimeo.com/395191930");
+            Video video = new Video("Video " + (i + 10), "Description " + (i + 10), "Fk-I2Jq572Q");
             cardRowAdapter_2.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_2, cardRowAdapter_2));
@@ -122,7 +122,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_3 = new ArrayObjectAdapter(cardPresenter_3);
 
         for (int i = 0; i < 15; i++) {
-            Video video = new Video("Video " + (i + 17), "Description " + (i + 17), "https://player.vimeo.com/video/395191930");
+            Video video = new Video("Video " + (i + 17), "Description " + (i + 17), "SbtN12CJYIA");
             cardRowAdapter_3.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_3, cardRowAdapter_3));
@@ -133,7 +133,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_4 = new ArrayObjectAdapter(cardPresenter_4);
 
         for (int i = 0; i < 5; i++) {
-            Video video = new Video("Video " + (i + 32), "Description " + (i + 32), "");
+            Video video = new Video("Video " + (i + 32), "Description " + (i + 32), "yYIwm2h4eyo");
             cardRowAdapter_4.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_4, cardRowAdapter_4));
@@ -144,7 +144,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_5 = new ArrayObjectAdapter(cardPresenter_5);
 
         for (int i = 0; i < 10; i++) {
-            Video video = new Video("Video " + (i + 37), "Description " + (i + 37), "");
+            Video video = new Video("Video " + (i + 37), "Description " + (i + 37), "Nuoj_ZSgpgk");
             cardRowAdapter_5.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_5, cardRowAdapter_5));
@@ -155,7 +155,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_6 = new ArrayObjectAdapter(cardPresenter_6);
 
         for (int i = 0; i < 3; i++) {
-            Video video = new Video("Video " + (i + 47), "Description " + (i + 47), "");
+            Video video = new Video("Video " + (i + 47), "Description " + (i + 47), "Q-Osex8_5KA");
             cardRowAdapter_6.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_6, cardRowAdapter_6));
@@ -166,7 +166,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_7 = new ArrayObjectAdapter(cardPresenter_7);
 
         for (int i = 0; i < 13; i++) {
-            Video video = new Video("Video " + (i + 50), "Description " + (i + 50), "");
+            Video video = new Video("Video " + (i + 50), "Description " + (i + 50), "nKWl6nAeza8");
             cardRowAdapter_7.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_7, cardRowAdapter_7));
@@ -177,7 +177,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_8 = new ArrayObjectAdapter(cardPresenter_8);
 
         for (int i = 0; i < 13; i++) {
-            Video video = new Video("Video " + (i + 63), "Description " + (i + 63), "");
+            Video video = new Video("Video " + (i + 63), "Description " + (i + 63), "RjNRl0e36cY");
             cardRowAdapter_8.add(video);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_8, cardRowAdapter_8));
