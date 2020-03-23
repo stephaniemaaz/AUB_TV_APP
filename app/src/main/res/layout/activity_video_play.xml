@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:name="com.example.myapplication.VideoPlayFragment"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VideoPlayActivity"
-    android:theme="@style/AppTheme">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>
+
+<!--
+<VideoView android:id="@+id/videoView" android:layout_width="match_parent"
+        android:layout_alignParentRight="true" android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" android:layout_alignParentBottom="true"
+        android:layout_height="match_parent" android:layout_gravity="center"
+        android:layout_centerInParent="true"></VideoView>
+
+
+<fragment android:id="@+id/playback_controls_fragment"
+        android:name="com.example.myapplication.VideoPlayFragment"
+        android:layout_width="match_parent" android:layout_height="match_parent" />-->
