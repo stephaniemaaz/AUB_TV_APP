@@ -27,6 +27,7 @@ public class CardPresenter extends Presenter {
 
         private PicassoImageCardViewTarget mImageCardViewTarget;
         private Video mVideo;
+        private Powerpoint mPowerPoint;
         private ImageCardView mCardView;
         private Drawable mDefaultCardImage;
 
@@ -44,6 +45,12 @@ public class CardPresenter extends Presenter {
         public Video getVideo() {
             return mVideo;
         }
+
+        public void setPowerPoint (Powerpoint powerPoint) {
+            mPowerPoint = powerPoint;
+        }
+
+        public Powerpoint getPowerPoint() { return mPowerPoint; }
 
         public ImageCardView getCardView() {
             return mCardView;
@@ -68,7 +75,7 @@ public class CardPresenter extends Presenter {
         }
 
         @Override
-        public void onBitmapFailed(Drawable drawable) {
+        public void onBitmapFailed(Exception e, Drawable drawable) {
             mImageCardView.setMainImage(drawable);
         }
 
@@ -92,16 +99,24 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-        Video movie = (Video) item;
-        ((ViewHolder) viewHolder).setVideo(movie);
+        if (item instanceof Video) {
+            Video movie = (Video) item;
+            ((ViewHolder) viewHolder).setVideo(movie);
 
-        Log.d(TAG, "onBindViewHolder");
-//        Toast.makeText(mContext, item.toString(), Toast.LENGTH_LONG)
-//                .show();
-        ((ViewHolder) viewHolder).mCardView.setTitleText(movie.getTitle());
-        ((ViewHolder) viewHolder).mCardView.setContentText(movie.getDescription());
-        ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-        ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+            Log.d(TAG, "onBindViewHolder");
+            ((ViewHolder) viewHolder).mCardView.setTitleText(movie.getTitle());
+            ((ViewHolder) viewHolder).mCardView.setContentText(movie.getDescription());
+            ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+        } else if (item instanceof Powerpoint) {
+            Powerpoint powerpoint = (Powerpoint) item;
+            ((ViewHolder) viewHolder).setPowerPoint(powerpoint);
+            Log.d(TAG, "onBindViewHolder");
+            ((ViewHolder) viewHolder).mCardView.setTitleText(powerpoint.getTitle());
+            ((ViewHolder) viewHolder).mCardView.setContentText(powerpoint.getDescription());
+            ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+        }
     }
 
     @Override
