@@ -4,4 +4,15 @@
     <color name="indigo">#5A7684</color>
     <color name="indigo_dark">#1B2327</color>
     <color name="default_background">#3d3d3d</color>
+
+    //Added for stephani
+    <color name="ColorPrimary" >#262938</color>
+    <color name="ColorPrimaryDark" >#181A24</color>
+    <color name="ColorAccent" >#FF4081</color>
+    <color name="ColorWhite" >#FFFFFF</color>
+    <color name="ColorGrey" >#CCCCCC</color>
+    <!--    // Black with opacity 40%-->
+    <color name="Transparent_black" >#1A000000</color>
+    <!--    // Red with opacity 40%-->
+    <color name="Transparent_red" >#1ADC0828</color>
 </resources>
