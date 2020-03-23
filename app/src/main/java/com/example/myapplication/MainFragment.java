@@ -73,6 +73,22 @@ public class MainFragment extends BrowseFragment {
                 intent.putExtra("video", video);
                 getActivity().startActivity(intent);
             }
+            if (item instanceof Powerpoint) {
+                Powerpoint powerpoint = (Powerpoint) item;
+                Log.d(TAG, "Item: " + item.toString());
+                Toast.makeText(getActivity(), powerpoint.getTitle() + " clicked", Toast.LENGTH_LONG)
+                        .show();
+                Intent intent = new Intent(getActivity(), PowerPointActivity.class);
+//                intent.putExtra(DetailsActivity.MOVIE, movie);
+//                intent.putExtra(PlaybackOverlayActivity.VIDEO, video.toString());
+                getActivity().startActivity(intent);
+            }
+            else if (item instanceof String) {
+                if (((String) item).contains(getString(R.string.calendar))) {
+                    Intent intent = new Intent(getActivity(), CalendarActivity.class);
+                    startActivity(intent);
+                }
+            }
         }
     }
 
@@ -86,8 +102,8 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter cardRowAdapter_1 = new ArrayObjectAdapter(cardPresenter_1);
 
         for (int i = 0; i < 10; i++) {
-            Video video = new Video("Video " + i, "Description " + i, "UGzVDS-se7Q");
-            cardRowAdapter_1.add(video);
+            Powerpoint powerpoint = new Powerpoint("Powerpoint " + i, "Description" + i, "");
+            cardRowAdapter_1.add(powerpoint);
         }
         mRowsAdapter.add(new ListRow(cardPresenterHeader_1, cardRowAdapter_1));
         // endregion
