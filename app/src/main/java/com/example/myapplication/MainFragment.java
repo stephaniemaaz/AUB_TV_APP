@@ -69,7 +69,8 @@ public class MainFragment extends BrowseFragment {
                 Log.d(TAG, "Item: " + item.toString());
                 Toast.makeText(getActivity(), video.getTitle() + " clicked", Toast.LENGTH_LONG)
                         .show();
-                Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+//                Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
                 intent.putExtra("video", video);
                 getActivity().startActivity(intent);
             }

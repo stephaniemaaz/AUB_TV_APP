@@ -6,8 +6,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="about_topic">About Topic</string>
-    <string name = "filler_title">"Lorem ipsum dolor sit amet</string>
-    <string name = "filler_text_short">Nam etiam labitur ex, eos propriae qualisque intellegebat ea, has cu affert fastidii. Natum novum mea an. Vis et suas definitiones, vis utroque omittam te, nec liber minimum phaedrum no. Tollit docendi salutandi qui cu, mei ex democritum voluptatibus. </string>
+    <string name="filler_title">"Lorem ipsum dolor sit amet</string>
+    <string name="filler_text_short">Nam etiam labitur ex, eos propriae qualisque intellegebat ea, has cu affert fastidii. Natum novum mea an. Vis et suas definitiones, vis utroque omittam te, nec liber minimum phaedrum no. Tollit docendi salutandi qui cu, mei ex democritum voluptatibus. </string>
 
     <string-array name="array_str_descriptions_for_powerPoints">
         <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </item>
