@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.fragment.app.FragmentActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -205,13 +206,18 @@ public class VideoPlayActivity extends YouTubeBaseActivity implements YouTubePla
 //            }
 //        };
 
-        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player);
-        try {
-            youTubePlayerView.initialize(API_KEY, this);
-        } catch (Exception e) {
-            Log.i("Error", e.getMessage());
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + video.getYouTubeID()));
+        youtubeIntent.putExtra("force_fullscreen", true);
+        youtubeIntent.putExtra("finish_on_ended", true);
+        startActivity(youtubeIntent);
+
+//        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player);
+//        try {
+//            youTubePlayerView.initialize(API_KEY, this);
+//        } catch (Exception e) {
+//            Log.i("Error", e.getMessage());
+//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+//        }
 
 
 //        if (savedInstanceState == null) {
