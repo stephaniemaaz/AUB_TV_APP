@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.Presenter;
@@ -28,6 +27,7 @@ public class CardPresenter extends Presenter {
         private PicassoImageCardViewTarget mImageCardViewTarget;
         private Video mVideo;
         private Powerpoint mPowerPoint;
+        private Calendar mCalendar;
         private ImageCardView mCardView;
         private Drawable mDefaultCardImage;
 
@@ -51,6 +51,10 @@ public class CardPresenter extends Presenter {
         }
 
         public Powerpoint getPowerPoint() { return mPowerPoint; }
+
+        public void setCalendar(Calendar calendar) { mCalendar = calendar; }
+
+        public Calendar getCalendar() { return mCalendar; }
 
         public ImageCardView getCardView() {
             return mCardView;
@@ -114,6 +118,13 @@ public class CardPresenter extends Presenter {
             Log.d(TAG, "onBindViewHolder");
             ((ViewHolder) viewHolder).mCardView.setTitleText(powerpoint.getTitle());
             ((ViewHolder) viewHolder).mCardView.setContentText(powerpoint.getDescription());
+            ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+        } else if (item instanceof Calendar) {
+            Calendar calendar = (Calendar) item;
+            ((ViewHolder) viewHolder).setCalendar(calendar);
+            Log.d(TAG, "onBindViewHolder");
+            ((ViewHolder) viewHolder).mCardView.setTitleText("Calendar");
             ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
             ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
         }

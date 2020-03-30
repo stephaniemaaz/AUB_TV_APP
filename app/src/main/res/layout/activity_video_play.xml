@@ -4,24 +4,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <com.google.android.youtube.player.YouTubePlayerView
-        android:id="@+id/youtube_player"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"/>
-
-
 </FrameLayout>
-
-<!--
-<VideoView android:id="@+id/videoView" android:layout_width="match_parent"
-        android:layout_alignParentRight="true" android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" android:layout_alignParentBottom="true"
-        android:layout_height="match_parent" android:layout_gravity="center"
-        android:layout_centerInParent="true"></VideoView>
-
-
-<fragment android:id="@+id/playback_controls_fragment"
-        android:name="com.example.myapplication.VideoPlayFragment"
-        android:layout_width="match_parent" android:layout_height="match_parent" />-->

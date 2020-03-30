@@ -4,12 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import timber.log.Timber;
 
-/*
- * Main Activity class that loads {@link MainFragment}.
- */
-
-// LifeCycles
-
 public class MainActivity extends Activity {
 
     @Override

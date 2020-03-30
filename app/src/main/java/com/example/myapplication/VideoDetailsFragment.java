@@ -14,10 +14,7 @@ import androidx.leanback.widget.ClassPresenterSelector;
 import androidx.leanback.widget.DetailsOverviewRow;
 import androidx.leanback.widget.FullWidthDetailsOverviewRowPresenter;
 import androidx.leanback.widget.FullWidthDetailsOverviewSharedElementHelper;
-import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ImageCardView;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnActionClickedListener;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
@@ -31,9 +28,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-
-import java.util.Collections;
-import java.util.List;
 
 public class VideoDetailsFragment extends DetailsFragment {
     private static final String TAG = "VideoDetailsFragment";

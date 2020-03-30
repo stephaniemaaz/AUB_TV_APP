@@ -1,35 +1,39 @@
 package com.example.myapplication;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-
-// todo: Calendar view with important university events and the option to remind you of the ones you highlight.
 
 public class CalendarActivity extends Activity {
 
-    CalendarView mCalendarView;
-    TextView mTextView;
+    private CalendarView mCalendar;
+    private TextView mEvents;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.calendar_main);
-        mCalendarView = findViewById(R.id.calender_main_calendar);
-        mTextView = findViewById(R.id.calender_main_date);
+        setContentView(R.layout.activity_calendar);
 
-        mCalendarView.setOnCapturedPointerListener(new View.OnCapturedPointerListener() {
+        mCalendar = findViewById(R.id.calendar);
+        mEvents = findViewById(R.id.calendar_events);
+
+        mCalendar.setDate(System.currentTimeMillis());
+
+        mCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public boolean onCapturedPointer(View view, MotionEvent event) {
-                return false;
+            public void onSelectedDayChange(CalendarView view, int year, int _month,
+                                            int dayOfMonth) {
+                int month = _month + 1;
+                getDateEvent(year, month , dayOfMonth);
             }
         });
+    }
+
+
+    private void getDateEvent(int year, int month, int dayOfMonth) {
+        if (year == 2020 && month == 3 && dayOfMonth == 23) {
+            mEvents.setText("No Events for 23-3-2020. Stay Home");
+        }
     }
 }

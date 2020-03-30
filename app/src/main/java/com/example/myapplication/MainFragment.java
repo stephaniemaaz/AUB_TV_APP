@@ -1,20 +1,14 @@
 package com.example.myapplication;
 
-import android.app.Activity;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.leanback.app.BrowseFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
@@ -23,10 +17,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
-
-import com.squareup.picasso.Picasso;
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
@@ -63,32 +53,24 @@ public class MainFragment extends BrowseFragment {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
+            Log.i("click", "Item Clicked");
             // todo: when clicking on a video
             if (item instanceof Video) {
                 Video video = (Video) item;
                 Log.d(TAG, "Item: " + item.toString());
-                Toast.makeText(getActivity(), video.getTitle() + " clicked", Toast.LENGTH_LONG)
-                        .show();
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-//                Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
                 intent.putExtra("video", video);
                 getActivity().startActivity(intent);
             }
             if (item instanceof Powerpoint) {
                 Powerpoint powerpoint = (Powerpoint) item;
                 Log.d(TAG, "Item: " + item.toString());
-                Toast.makeText(getActivity(), powerpoint.getTitle() + " clicked", Toast.LENGTH_LONG)
-                        .show();
                 Intent intent = new Intent(getActivity(), PowerPointActivity.class);
-//                intent.putExtra(DetailsActivity.MOVIE, movie);
-//                intent.putExtra(PlaybackOverlayActivity.VIDEO, video.toString());
                 getActivity().startActivity(intent);
             }
-            else if (item instanceof String) {
-                if (((String) item).contains(getString(R.string.calendar))) {
-                    Intent intent = new Intent(getActivity(), CalendarActivity.class);
-                    startActivity(intent);
-                }
+            else if (item instanceof Calendar) {
+                Intent intent = new Intent(getActivity(), CalendarActivity.class);
+                startActivity(intent);
             }
         }
     }
@@ -96,6 +78,16 @@ public class MainFragment extends BrowseFragment {
     // todo: here we can add rows
     private void loadRows() {
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+
+        // region calendar
+        HeaderItem cardPresenterHeader_0 = new HeaderItem(1, "CALENDAR");
+        CardPresenter cardPresenter_0 = new CardPresenter();
+        ArrayObjectAdapter cardRowAdapter_0 = new ArrayObjectAdapter(cardPresenter_0);
+
+        Calendar calendar = new Calendar();
+        cardRowAdapter_0.add(calendar);
+        mRowsAdapter.add(new ListRow(cardPresenterHeader_0, cardRowAdapter_0));
+        // endregion
 
         // region first row
         HeaderItem cardPresenterHeader_1 = new HeaderItem(1, "CAMPUS");

@@ -9,7 +9,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import timber.log.Timber;
@@ -70,19 +69,16 @@ public class PowerPointActivity extends Activity {
             case KeyEvent.KEYCODE_DPAD_LEFT: {
                 Timber.i("10 changed it");
                 viewPager2.setCurrentItem(viewPager2.getCurrentItem() - 1);
-                Toast.makeText(PowerPointActivity.this, "Left pressed!", Toast.LENGTH_SHORT).show();
                 break;
             }
             case KeyEvent.KEYCODE_DPAD_RIGHT: {
                 Timber.i("11 changed it");
                 viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
-                Toast.makeText(PowerPointActivity.this, "Right pressed!", Toast.LENGTH_SHORT).show();
                 break;
             }
 //            Cancelling event due to no window focus: KeyEvent. It seems like there is something wrong here and its late so I will sleep :}
             case KeyEvent.KEYCODE_BACK: {
                 Timber.i("12 changed it");
-                Toast.makeText(PowerPointActivity.this, "Back pressed!", Toast.LENGTH_SHORT).show();
                 super.onBackPressed();
                 break;
             }
