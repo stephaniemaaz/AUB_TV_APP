@@ -17,4 +17,5 @@ Having YouTube installed on the devices
   <li>Displaying a main slider in the home page</li>
   <li>Displaying and playing slideshows</li>
   <li>Displaying Images</li>
+  <li>Displaying the AUB Calendar</li>
 </ul>
