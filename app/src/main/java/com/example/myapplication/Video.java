@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Video implements Serializable {
+public class Video implements Serializable, DisplayObject {
 
     private static final String TAG = Video.class.getSimpleName();
 
@@ -15,14 +15,15 @@ public class Video implements Serializable {
     private String title;
     private String description;
     private String YouTubeID;
-    private String cardImageUrl;
+    private String cardUrl;
 
     public Video(){}
 
-    public Video(String title, String description, String youTubeID) {
+    public Video(String title, String description, String youTubeID, String cardUrl) {
         this.title = title;
         this.description = description;
         this.YouTubeID = youTubeID;
+        this.cardUrl = cardUrl;
     }
 
     public long getId() {
@@ -45,13 +46,14 @@ public class Video implements Serializable {
         YouTubeID = youTubeID;
     }
 
-    public String getCardImageUrl() {
-        return cardImageUrl;
+    @Override
+    public String getCardUrl() {
+        return cardUrl;
     }
 
-    public URI getCardImageURI() {
+    public URI getCardURI() {
         try {
-            return new URI(getCardImageUrl());
+            return new URI(getCardUrl());
         } catch (URISyntaxException e) {
             return null;
         }
@@ -69,8 +71,9 @@ public class Video implements Serializable {
         this.description = description;
     }
 
-    public void setCardImageUrl(String cardImageUrl) {
-        this.cardImageUrl = cardImageUrl;
+    @Override
+    public void setCardUrl(String cardUrl) {
+        this.cardUrl = cardUrl;
     }
 
     @Override
@@ -80,7 +83,9 @@ public class Video implements Serializable {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", YouTubeID='" + YouTubeID + '\'' +
-                ", cardImageUrl='" + cardImageUrl + '\'' +
+                ", cardUrl='" + cardUrl + '\'' +
                 '}';
     }
+
+
 }

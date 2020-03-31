@@ -35,4 +35,6 @@
     <string name="gson_or_moshi_request_time_will_show_here_once_complete">Gson or Moshi request time will show here once complete.</string>
 
     <string name="calendar_title">AUB Calendar</string>
+
+    <string name="api">https://2a8215ef-3479-4b6b-bcc7-760d726e6feb.mock.pstmn.io/videos</string>
 </resources>

@@ -1,8 +1,8 @@
 package com.example.myapplication;
 
 // todo: change
-public class Powerpoint {
-    private long mId; private String mTitle; private String mDescription; private String mPowerPointUrl; private String mCardImageUrl;
+public class Powerpoint implements DisplayObject{
+    private long mId; private String mTitle; private String mDescription; private String mPowerPointUrl; private String CardUrl;
     private int mNumberOfPages; private String [] mImagesURLs; private String [] mDescriptionURLs; private int mTrialImage;
 
     public Powerpoint(){}
@@ -34,7 +34,7 @@ public class Powerpoint {
     public String getPowerPointUrl() {
         return this.mPowerPointUrl;
     }
-    public String getCardImageUrl() { return this.mCardImageUrl; }
+    public String getCardUrl() { return this.CardUrl; }
     public int getTrialImage() { return R.drawable.ppt_image; }
     public void setId(Long mId) {
         this.mId = mId;
@@ -48,8 +48,8 @@ public class Powerpoint {
     public void setPowerPointUrl(String mUrl) {
         this.mPowerPointUrl = mUrl;
     }
-    public void setCardImageUrl(String mCardImageUrl) {
-        this.mCardImageUrl = mCardImageUrl;
+    public void setCardUrl(String mCardImageUrl) {
+        this.CardUrl = mCardImageUrl;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Powerpoint {
                 ", title='" + mTitle + '\'' +
                 ", description='" + mDescription +
                 ", powerPointUrl='" + mPowerPointUrl +
-                ", cardImageUrl='" + mCardImageUrl + '\'' +
+                ", cardUrl='" + CardUrl + '\'' +
                 '}';
     }
 }

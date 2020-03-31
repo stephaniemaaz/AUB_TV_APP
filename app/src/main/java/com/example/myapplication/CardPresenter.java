@@ -8,11 +8,21 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.leanback.widget.DetailsOverviewRow;
 import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.Presenter;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class CardPresenter extends Presenter {
 
@@ -104,14 +114,34 @@ public class CardPresenter extends Presenter {
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         if (item instanceof Video) {
-            Video movie = (Video) item;
-            ((ViewHolder) viewHolder).setVideo(movie);
+            Video video = (Video) item;
+            ((ViewHolder) viewHolder).setVideo(video);
 
             Log.d(TAG, "onBindViewHolder");
-            ((ViewHolder) viewHolder).mCardView.setTitleText(movie.getTitle());
-            ((ViewHolder) viewHolder).mCardView.setContentText(movie.getDescription());
+            ((ViewHolder) viewHolder).mCardView.setTitleText(video.getTitle());
+            ((ViewHolder) viewHolder).mCardView.setContentText(video.getDescription());
             ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+
+            // Setting the card presenter of the video
+            String CardUrl = video.getCardUrl();
+            if (CardUrl != null && !CardUrl.equals("")) {
+                Glide.with(mContext)
+                        .load(CardUrl)
+                        .centerCrop()
+                        .error(R.drawable.default_background)
+                        .into(new SimpleTarget<GlideDrawable>(CARD_WIDTH, CARD_HEIGHT) {
+                            @Override
+                            public void onResourceReady(GlideDrawable resource,
+                                                        GlideAnimation<? super GlideDrawable>
+                                                                glideAnimation) {
+                                ((ViewHolder) viewHolder).mCardView.setMainImage(resource);
+                            }
+                        });
+            }
+            else {
+                // When no card url is provided: set the default card
+                ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+            }
         } else if (item instanceof Powerpoint) {
             Powerpoint powerpoint = (Powerpoint) item;
             ((ViewHolder) viewHolder).setPowerPoint(powerpoint);

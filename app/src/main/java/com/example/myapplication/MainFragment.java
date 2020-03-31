@@ -17,6 +17,18 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
@@ -24,6 +36,8 @@ public class MainFragment extends BrowseFragment {
     private ArrayObjectAdapter mRowsAdapter;
     private static final int GRID_ITEM_WIDTH = 300;
     private static final int GRID_ITEM_HEIGHT = 200;
+
+    private JSONObject metadata;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -34,7 +48,7 @@ public class MainFragment extends BrowseFragment {
 
         setupEvenListeners();
 
-        loadRows();
+        FetchDataFromApi();
     }
 
     private void setupUIElements() {
@@ -80,7 +94,7 @@ public class MainFragment extends BrowseFragment {
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
 
         // region calendar
-        HeaderItem cardPresenterHeader_0 = new HeaderItem(1, "CALENDAR");
+        HeaderItem cardPresenterHeader_0 = new HeaderItem(0, "CALENDAR");
         CardPresenter cardPresenter_0 = new CardPresenter();
         ArrayObjectAdapter cardRowAdapter_0 = new ArrayObjectAdapter(cardPresenter_0);
 
@@ -89,99 +103,45 @@ public class MainFragment extends BrowseFragment {
         mRowsAdapter.add(new ListRow(cardPresenterHeader_0, cardRowAdapter_0));
         // endregion
 
-        // region first row
-        HeaderItem cardPresenterHeader_1 = new HeaderItem(1, "CAMPUS");
-        CardPresenter cardPresenter_1 = new CardPresenter();
-        ArrayObjectAdapter cardRowAdapter_1 = new ArrayObjectAdapter(cardPresenter_1);
+        // region add rows
+        try {
+            JSONArray categories = metadata.names();
+            for(int i = 0; i < categories.length(); i++) {
+                String category = categories.get(i).toString();
+                HeaderItem cardPresenterHeader = new HeaderItem(i, category);
+                CardPresenter cardPresenter = new CardPresenter();
+                ArrayObjectAdapter cardRowAdapter = new ArrayObjectAdapter(cardPresenter);
 
-        for (int i = 0; i < 10; i++) {
-            Powerpoint powerpoint = new Powerpoint("Powerpoint " + i, "Description" + i, "");
-            cardRowAdapter_1.add(powerpoint);
+                JSONArray items = metadata.getJSONArray(category);
+                for (int j = 0; j < items.length(); j++) {
+                    try {
+                        JSONObject item = items.optJSONObject(j);
+                        Log.i("JSON:", item.toString());
+                        String itemType = item.getString("type");
+                        Log.i("Type:", itemType);
+                        DisplayObject itemParsed = null;
+                        if (itemType.toUpperCase().equals("VIDEO")) {
+                            String videoTitle = item.getString("title");
+                            String videoDescription = item.getString("description");
+                            String videoYouTubeID = item.getString("youtubeId");
+                            String cardUrl = item.getString("cardUrl");
+                            itemParsed = new Video(videoTitle, videoDescription, videoYouTubeID, cardUrl);
+                        }
+                        if (itemParsed != null) {
+                            cardRowAdapter.add(itemParsed);
+                        }
+                    } catch (Exception e) {
+                        Log.i("ERROR", e.getMessage());
+                    }
+                }
+                mRowsAdapter.add(new ListRow(cardPresenterHeader, cardRowAdapter));
+
+            }
+        } catch (Exception e) {
+            Log.i("Error:", e.getMessage());
         }
-        mRowsAdapter.add(new ListRow(cardPresenterHeader_1, cardRowAdapter_1));
-        // endregion
-        // region second row
-        HeaderItem cardPresenterHeader_2 = new HeaderItem(1, "LIBRARIES");
-        CardPresenter cardPresenter_2 = new CardPresenter();
-        ArrayObjectAdapter cardRowAdapter_2 = new ArrayObjectAdapter(cardPresenter_2);
-
-        for (int i = 0; i < 7; i++) {
-            Video video = new Video("Video " + (i + 10), "Description " + (i + 10), "Fk-I2Jq572Q");
-            cardRowAdapter_2.add(video);
-        }
-        mRowsAdapter.add(new ListRow(cardPresenterHeader_2, cardRowAdapter_2));
-        // endregion
-        // region third row
-        HeaderItem cardPresenterHeader_3 = new HeaderItem(1, "SPORTS");
-        CardPresenter cardPresenter_3 = new CardPresenter();
-        ArrayObjectAdapter cardRowAdapter_3 = new ArrayObjectAdapter(cardPresenter_3);
-
-        for (int i = 0; i < 15; i++) {
-            Video video = new Video("Video " + (i + 17), "Description " + (i + 17), "SbtN12CJYIA");
-            cardRowAdapter_3.add(video);
-        }
-        mRowsAdapter.add(new ListRow(cardPresenterHeader_3, cardRowAdapter_3));
-        // endregion
-        // region forth row
-        HeaderItem cardPresenterHeader_4 = new HeaderItem(1, "MAJORS");
-        CardPresenter cardPresenter_4 = new CardPresenter();
-        ArrayObjectAdapter cardRowAdapter_4 = new ArrayObjectAdapter(cardPresenter_4);
-
-        for (int i = 0; i < 5; i++) {
-            Video video = new Video("Video " + (i + 32), "Description " + (i + 32), "yYIwm2h4eyo");
-            cardRowAdapter_4.add(video);
-        }
-        mRowsAdapter.add(new ListRow(cardPresenterHeader_4, cardRowAdapter_4));
-        // endregion
-        // region fifth row
-        HeaderItem cardPresenterHeader_5 = new HeaderItem(1, "STUDENT CENTER");
-        CardPresenter cardPresenter_5 = new CardPresenter();
-        ArrayObjectAdapter cardRowAdapter_5 = new ArrayObjectAdapter(cardPresenter_5);
-
-        for (int i = 0; i < 10; i++) {
-            Video video = new Video("Video " + (i + 37), "Description " + (i + 37), "Nuoj_ZSgpgk");
-            cardRowAdapter_5.add(video);
-        }
-        mRowsAdapter.add(new ListRow(cardPresenterHeader_5, cardRowAdapter_5));
-        // endregion
-        // region sixth row
-        HeaderItem cardPresenterHeader_6 = new HeaderItem(1, "TUITION FEES");
-        CardPresenter cardPresenter_6 = new CardPresenter();
-        ArrayObjectAdapter cardRowAdapter_6 = new ArrayObjectAdapter(cardPresenter_6);
-
-        for (int i = 0; i < 3; i++) {
-            Video video = new Video("Video " + (i + 47), "Description " + (i + 47), "Q-Osex8_5KA");
-            cardRowAdapter_6.add(video);
-        }
-        mRowsAdapter.add(new ListRow(cardPresenterHeader_6, cardRowAdapter_6));
-        // endregion
-        // region seventh row
-        HeaderItem cardPresenterHeader_7 = new HeaderItem(1, "FINANCIAL AID");
-        CardPresenter cardPresenter_7 = new CardPresenter();
-        ArrayObjectAdapter cardRowAdapter_7 = new ArrayObjectAdapter(cardPresenter_7);
-
-        for (int i = 0; i < 13; i++) {
-            Video video = new Video("Video " + (i + 50), "Description " + (i + 50), "nKWl6nAeza8");
-            cardRowAdapter_7.add(video);
-        }
-        mRowsAdapter.add(new ListRow(cardPresenterHeader_7, cardRowAdapter_7));
-        // endregion
-        // region eighth row
-        HeaderItem cardPresenterHeader_8 = new HeaderItem(1, "DORMS");
-        CardPresenter cardPresenter_8 = new CardPresenter();
-        ArrayObjectAdapter cardRowAdapter_8 = new ArrayObjectAdapter(cardPresenter_8);
-
-        for (int i = 0; i < 13; i++) {
-            Video video = new Video("Video " + (i + 63), "Description " + (i + 63), "RjNRl0e36cY");
-            cardRowAdapter_8.add(video);
-        }
-        mRowsAdapter.add(new ListRow(cardPresenterHeader_8, cardRowAdapter_8));
-        // endregion
-
-
-
-        /* set */
         setAdapter(mRowsAdapter);
+        // endregion
     }
 
     private class GridItemPresenter extends Presenter {
@@ -208,4 +168,35 @@ public class MainFragment extends BrowseFragment {
         }
     }
 
+    private Long FetchDataFromApi() {
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.api),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        try {
+                            metadata = new JSONObject(response);
+                            loadRows();
+                        } catch (JSONException e) {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            Log.i("Error", e.getMessage());
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "Failed to get data", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+        return Long.MAX_VALUE;
+    }
 }
