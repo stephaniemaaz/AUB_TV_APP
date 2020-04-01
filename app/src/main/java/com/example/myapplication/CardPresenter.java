@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -72,6 +73,10 @@ public class CardPresenter extends Presenter {
 
         public Drawable getDefaultCardImage() {
             return mDefaultCardImage;
+        }
+
+        public Drawable getCalendarCardImage() {
+            return mContext.getResources().getDrawable(R.drawable.calendar);
         }
     }
 
@@ -154,9 +159,8 @@ public class CardPresenter extends Presenter {
             Calendar calendar = (Calendar) item;
             ((ViewHolder) viewHolder).setCalendar(calendar);
             Log.d(TAG, "onBindViewHolder");
-            ((ViewHolder) viewHolder).mCardView.setTitleText("Calendar");
             ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getCalendarCardImage());
         }
     }
 
