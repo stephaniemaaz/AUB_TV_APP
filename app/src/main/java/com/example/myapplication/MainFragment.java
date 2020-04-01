@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,12 +18,8 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -42,19 +37,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Timer;
-
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
 
     private ArrayObjectAdapter mRowsAdapter;
-    private static final int GRID_ITEM_WIDTH = 300;
-    private static final int GRID_ITEM_HEIGHT = 200;
 
-    private final Handler mHandler = new Handler();
     private Drawable mDefaultBackground;
     private DisplayMetrics mMetrics;
-    private String mBackgroundUri;
     private BackgroundManager mBackgroundManager;
 
     private JSONObject metadata;
@@ -64,9 +53,7 @@ public class MainFragment extends BrowseFragment {
         Log.i(TAG, "onCreate");
         super.onActivityCreated(savedInstanceState);
 
-//        setupUIElements();
-
-
+        // Get the content form the API
         FetchDataFromApi();
 
         setupEvenListeners();
@@ -81,7 +68,10 @@ public class MainFragment extends BrowseFragment {
     }
 
     private void setupEvenListeners() {
+        // Actions taken when an item is clicked
         setOnItemViewClickedListener(new ItemViewClickedListener());
+
+        // Actions taken when an item is selected
         setOnItemViewSelectedListener(new ItemViewSelectedListener());
     }
 
@@ -90,18 +80,14 @@ public class MainFragment extends BrowseFragment {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-            Log.i("click", "Item Clicked");
-            // todo: when clicking on a video
             if (item instanceof Video) {
                 Video video = (Video) item;
-                Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
                 intent.putExtra("video", video);
                 getActivity().startActivity(intent);
             }
             if (item instanceof Powerpoint) {
                 Powerpoint powerpoint = (Powerpoint) item;
-                Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), PowerPointActivity.class);
                 getActivity().startActivity(intent);
             }
@@ -120,8 +106,8 @@ public class MainFragment extends BrowseFragment {
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
             if (item instanceof Video) {
+                // Update the app background with the video card image
                 updateBackground(((Video) item).getCardUrl());
-                mBackgroundUri = ((Video) item).getCardUrl();
             }
         }
     }
@@ -198,13 +184,15 @@ public class MainFragment extends BrowseFragment {
         Glide.with(getActivity())
                 .load(uri)
                 .centerCrop()
-                .error(mDefaultBackground)
+                .error(mDefaultBackground) // on error: set default background
                 .into(new  SimpleTarget<GlideDrawable>(width, height) {
                     @Override
                     public void onResourceReady(GlideDrawable resource,
                                                 GlideAnimation<? super GlideDrawable>
                                                         glideAnimation) {
+                        // update the background
                         mBackgroundManager.setDrawable(resource);
+                        // darken the background
                         resource.setColorFilter(Color.rgb(77, 77, 77), android.graphics.PorterDuff.Mode.MULTIPLY);
                     }
                 });
