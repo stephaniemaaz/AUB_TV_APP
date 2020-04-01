@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -18,6 +19,7 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
@@ -198,9 +200,13 @@ public class MainFragment extends BrowseFragment {
                 });
     }
 
-    private Long FetchDataFromApi() {
+    private void FetchDataFromApi() {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getActivity());
+
+        // Add a spinner
+        SpinnerFragment mSpinnerFragment = new SpinnerFragment();
+        getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mSpinnerFragment).commit();
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.api),
@@ -216,7 +222,13 @@ public class MainFragment extends BrowseFragment {
                             setupUIElements();
 
                             loadRows();
+
+                            // remove the spinner
+                            getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
+
                         } catch (JSONException e) {
+                            // remove the spinner
+                            getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                             Log.i("Error", e.getMessage());
                         }
@@ -225,13 +237,12 @@ public class MainFragment extends BrowseFragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                // remove the spinner
+                getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
                 Toast.makeText(getActivity(), "Failed to get data", Toast.LENGTH_LONG).show();
             }
         });
-
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-
-        return Long.MAX_VALUE;
     }
 }
