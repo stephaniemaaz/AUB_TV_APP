@@ -1,18 +1,26 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
+import androidx.core.content.ContextCompat;
+import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.BrowseFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
+import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -25,10 +33,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Timer;
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
@@ -37,6 +51,12 @@ public class MainFragment extends BrowseFragment {
     private static final int GRID_ITEM_WIDTH = 300;
     private static final int GRID_ITEM_HEIGHT = 200;
 
+    private final Handler mHandler = new Handler();
+    private Drawable mDefaultBackground;
+    private DisplayMetrics mMetrics;
+    private String mBackgroundUri;
+    private BackgroundManager mBackgroundManager;
+
     private JSONObject metadata;
 
     @Override
@@ -44,11 +64,13 @@ public class MainFragment extends BrowseFragment {
         Log.i(TAG, "onCreate");
         super.onActivityCreated(savedInstanceState);
 
-        setupUIElements();
+//        setupUIElements();
+
+
+        FetchDataFromApi();
 
         setupEvenListeners();
 
-        FetchDataFromApi();
     }
 
     private void setupUIElements() {
@@ -60,6 +82,7 @@ public class MainFragment extends BrowseFragment {
 
     private void setupEvenListeners() {
         setOnItemViewClickedListener(new ItemViewClickedListener());
+        setOnItemViewSelectedListener(new ItemViewSelectedListener());
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -85,6 +108,20 @@ public class MainFragment extends BrowseFragment {
             else if (item instanceof Calendar) {
                 Intent intent = new Intent(getActivity(), CalendarActivity.class);
                 startActivity(intent);
+            }
+        }
+    }
+
+    private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
+        @Override
+        public void onItemSelected(
+                Presenter.ViewHolder itemViewHolder,
+                Object item,
+                RowPresenter.ViewHolder rowViewHolder,
+                Row row) {
+            if (item instanceof Video) {
+                updateBackground(((Video) item).getCardUrl());
+                mBackgroundUri = ((Video) item).getCardUrl();
             }
         }
     }
@@ -144,28 +181,33 @@ public class MainFragment extends BrowseFragment {
         // endregion
     }
 
-    private class GridItemPresenter extends Presenter {
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent) {
-            TextView view = new TextView(parent.getContext());
-            view.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
-            view.setFocusable(true);
-            view.setFocusableInTouchMode(true);
-            view.setBackgroundColor(getResources().getColor(R.color.default_background));
-            view.setTextColor(Color.WHITE);
-            view.setGravity(Gravity.CENTER);
-            return new ViewHolder(view);
-        }
+    private void prepareBackgroundManager() {
 
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-            ((TextView) viewHolder.view).setText((String) item);
-        }
+        mBackgroundManager = BackgroundManager.getInstance(getActivity());
+        mBackgroundManager.attach(getActivity().getWindow());
 
-        @Override
-        public void onUnbindViewHolder(ViewHolder viewHolder) {
+        mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.default_background);
+        mMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+    }
 
-        }
+    private void updateBackground(String uri) {
+        int width = mMetrics.widthPixels;
+        int height = mMetrics.heightPixels;
+
+        Glide.with(getActivity())
+                .load(uri)
+                .centerCrop()
+                .error(mDefaultBackground)
+                .into(new  SimpleTarget<GlideDrawable>(width, height) {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource,
+                                                GlideAnimation<? super GlideDrawable>
+                                                        glideAnimation) {
+                        mBackgroundManager.setDrawable(resource);
+                        resource.setColorFilter(Color.rgb(77, 77, 77), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    }
+                });
     }
 
     private Long FetchDataFromApi() {
@@ -180,6 +222,11 @@ public class MainFragment extends BrowseFragment {
                         // Display the first 500 characters of the response string.
                         try {
                             metadata = new JSONObject(response);
+
+                            prepareBackgroundManager();
+
+                            setupUIElements();
+
                             loadRows();
                         } catch (JSONException e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
