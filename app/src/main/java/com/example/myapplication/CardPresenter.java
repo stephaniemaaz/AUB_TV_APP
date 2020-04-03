@@ -1,19 +1,29 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import androidx.leanback.widget.DetailsOverviewRow;
 import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.Presenter;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class CardPresenter extends Presenter {
 
@@ -27,6 +37,8 @@ public class CardPresenter extends Presenter {
 
         private PicassoImageCardViewTarget mImageCardViewTarget;
         private Video mVideo;
+        private Powerpoint mPowerPoint;
+        private Calendar mCalendar;
         private ImageCardView mCardView;
         private Drawable mDefaultCardImage;
 
@@ -45,12 +57,26 @@ public class CardPresenter extends Presenter {
             return mVideo;
         }
 
+        public void setPowerPoint (Powerpoint powerPoint) {
+            mPowerPoint = powerPoint;
+        }
+
+        public Powerpoint getPowerPoint() { return mPowerPoint; }
+
+        public void setCalendar(Calendar calendar) { mCalendar = calendar; }
+
+        public Calendar getCalendar() { return mCalendar; }
+
         public ImageCardView getCardView() {
             return mCardView;
         }
 
         public Drawable getDefaultCardImage() {
             return mDefaultCardImage;
+        }
+
+        public Drawable getCalendarCardImage() {
+            return mContext.getResources().getDrawable(R.drawable.calendar);
         }
     }
 
@@ -68,7 +94,7 @@ public class CardPresenter extends Presenter {
         }
 
         @Override
-        public void onBitmapFailed(Drawable drawable) {
+        public void onBitmapFailed(Exception e, Drawable drawable) {
             mImageCardView.setMainImage(drawable);
         }
 
@@ -92,16 +118,50 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-        Video movie = (Video) item;
-        ((ViewHolder) viewHolder).setVideo(movie);
+        if (item instanceof Video) {
+            Video video = (Video) item;
+            ((ViewHolder) viewHolder).setVideo(video);
 
-        Log.d(TAG, "onBindViewHolder");
-//        Toast.makeText(mContext, item.toString(), Toast.LENGTH_LONG)
-//                .show();
-        ((ViewHolder) viewHolder).mCardView.setTitleText(movie.getTitle());
-        ((ViewHolder) viewHolder).mCardView.setContentText(movie.getDescription());
-        ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-        ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+            Log.d(TAG, "onBindViewHolder");
+            ((ViewHolder) viewHolder).mCardView.setTitleText(video.getTitle());
+            ((ViewHolder) viewHolder).mCardView.setContentText(video.getDescription());
+            ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+
+            // Setting the card presenter of the video
+            String CardUrl = video.getCardUrl();
+            if (CardUrl != null && !CardUrl.equals("")) {
+                Glide.with(mContext)
+                        .load(CardUrl)
+                        .centerCrop()
+                        .error(R.drawable.default_background)
+                        .into(new SimpleTarget<GlideDrawable>(CARD_WIDTH, CARD_HEIGHT) {
+                            @Override
+                            public void onResourceReady(GlideDrawable resource,
+                                                        GlideAnimation<? super GlideDrawable>
+                                                                glideAnimation) {
+                                ((ViewHolder) viewHolder).mCardView.setMainImage(resource);
+                            }
+                        });
+            }
+            else {
+                // When no card url is provided: set the default card
+                ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+            }
+        } else if (item instanceof Powerpoint) {
+            Powerpoint powerpoint = (Powerpoint) item;
+            ((ViewHolder) viewHolder).setPowerPoint(powerpoint);
+            Log.d(TAG, "onBindViewHolder");
+            ((ViewHolder) viewHolder).mCardView.setTitleText(powerpoint.getTitle());
+            ((ViewHolder) viewHolder).mCardView.setContentText(powerpoint.getDescription());
+            ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+        } else if (item instanceof Calendar) {
+            Calendar calendar = (Calendar) item;
+            ((ViewHolder) viewHolder).setCalendar(calendar);
+            Log.d(TAG, "onBindViewHolder");
+            ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getCalendarCardImage());
+        }
     }
 
     @Override
